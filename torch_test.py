@@ -1,7 +1,8 @@
 import torch
 import numpy as np
 
-DTYPE = torch.complex64
+CDTYPE = torch.complex64
+DTYPE = torch.float32
 
 def fwht(x):
     d = x.shape[0]
@@ -23,30 +24,44 @@ def get_zrot(N: int) -> torch.tensor:
         zrot = zrot.ravel()
     return zrot
 
-
-def get_qaoa_layer(fval: torch.Tensor):
+def get_qaoa(fval: torch.Tensor):
+    dim = len(fval)
     N = int(np.log2(len(fval)))
     zrot = get_zrot(N)
 
-    def qaoa_layer(x, params):
-        x *= torch.exp(1j * fval * params[0])
-        x = fwht(x)
-        x *= torch.exp(1j * zrot * params[1])
-        return fwht(x)
-
-    return qaoa_layer
-
-def get_qaoa(fval: torch.Tensor):
-    layer = get_qaoa_layer(fval)
     def qaoa(params):
-        x = torch.ones(len(fval), dtype=DTYPE) / np.sqrt(len(fval))
+        initial = torch.ones(len(fval), dtype=CDTYPE) / np.sqrt(dim)
+
+        def layer(carry, p):
+            y = fwht(carry * torch.exp(1j * fval * p[1]))
+            r = fwht(y * torch.exp(1j * zrot * p[0]))
+            return r
+
+        x = initial
         for p in params:
             x = layer(x, p)
         return torch.abs(x).dot(fval)
+
     return qaoa
 
-fval = torch.tensor(np.exp(-np.linspace(-1, 1, 2 ** 10) ** 2), dtype=torch.float32)
+fval = torch.tensor(np.exp(-np.linspace(-1, 1, 2 ** 21) ** 2), dtype=DTYPE)
 
-params = torch.ones((30, 2))
+params = torch.ones((50, 2), requires_grad=True)
 
 qaoa = get_qaoa(fval)
+
+import timeit
+num=1
+r = timeit.timeit(lambda: qaoa(params), number=num)
+print(r / num)
+
+num=1
+ps = [torch.ones((20, 2), requires_grad=True) for _ in range(num)]
+rs = [qaoa(pi) for pi in ps]
+
+import time
+a = time.time()
+for ri in rs:
+    ri.backward()
+print((time.time()-a) / num)
+
