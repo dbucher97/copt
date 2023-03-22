@@ -46,7 +46,7 @@ def get_qaoa(fval: torch.Tensor):
 
 fval = torch.tensor(np.exp(-np.linspace(-1, 1, 2 ** 21) ** 2), dtype=DTYPE)
 
-params = torch.ones((50, 2), requires_grad=True)
+params = torch.ones((10, 2), requires_grad=True)
 
 qaoa = get_qaoa(fval)
 

@@ -2,6 +2,12 @@ from jax import jit, lax, grad
 
 import jax.numpy as jnp
 
+from tqdm import tqdm
+
+import matplotlib.pyplot as plt
+
+import optax
+
 
 CDTYPE = jnp.complex64
 DTYPE = jnp.float32
@@ -35,39 +41,98 @@ def get_qaoa(fval: jnp.ndarray):
     N = int(jnp.log2(len(fval)))
     zrot = get_zrot(N)
 
+    initial = jnp.ones(len(fval), dtype=CDTYPE) / jnp.sqrt(dim)
+
+    def layer(carry, p):
+        y = fwht(carry * jnp.exp(1j * fval * p[1]))
+        r = fwht(y * jnp.exp(1j * zrot * p[0]))
+        return r, None
+
     def qaoa(params):
-        initial = jnp.ones(len(fval), dtype=CDTYPE) / jnp.sqrt(dim)
-
-        def layer(carry, p):
-            y = fwht(carry * jnp.exp(1j * fval * p[1]))
-            r = fwht(y * jnp.exp(1j * zrot * p[0]))
-            return r, None
-
         res, _ = lax.scan(layer, initial, params)
-        return jnp.abs(res).dot(fval)
+        return res
 
     return qaoa
 
+def norm(r):
+    return jnp.sqrt(jnp.sum(jnp.abs(r) ** 2))
 
-fval = jnp.exp(-jnp.linspace(-1, 1, 2**21) ** 2)
+def get_masked_qaoa(fval: jnp.ndarray, mask: jnp.ndarray):
+    dim = len(fval)
+    N = int(jnp.log2(len(fval)))
+    zrot = get_zrot(N)
 
-params = jnp.ones((10, 2))
+    initial = jnp.ones(len(fval), dtype=CDTYPE) / jnp.sqrt(dim)
+    initial *= mask
 
-qaoa = get_qaoa(fval)
+    initial /= jnp.sqrt((jnp.abs(initial) ** 2).sum())
 
-jqaoa = jit(qaoa)
+    def layer(carry, p):
+        y = fwht(carry * jnp.exp(1j * fval * p[1]))
+        rb = jnp.exp(1j * zrot * p[0])
+        r = fwht(y * rb)
+        r2 = (1 - mask) * r
+        r = mask * r
+        r /= norm(r)
+        return r, norm(r2) ** 2
+
+    def qaoa(params):
+        return lax.scan(layer, initial, params)
+
+    return qaoa
+
+def expval(fval: jnp.ndarray, qaoa):
+    def f(params):
+        x, _ = qaoa(params)
+        return (jnp.abs(x) ** 2).dot(fval)
+    return f
+
+def get_inital(depth, T=1.0):
+    dt = T / depth
+    r = (jnp.arange(depth) + 1) / depth
+    gammas = r * dt
+    betas = (1 - r + 1 / depth) * dt
+    return jnp.stack((betas, gammas)).T
+
+x = jnp.linspace(-3, 3, 2**10)
+fval = -jnp.exp(-x ** 2)
+alpha = 0.0
+mask = (jnp.abs(x - 0.5) > 0.8) * (1-alpha) + alpha
+
+params = get_inital(10000, 10)
+print(params)
+
+qaoa = get_masked_qaoa(fval, mask)
+# qaoa = get_qaoa(fval)
+
+eqaoa = expval(fval, qaoa)
+
+jqaoa = jit(eqaoa)
 jqaoa(params).block_until_ready()
-print("compiled")
+# gqaoa = jit(grad(eqaoa))
+# print(jqaoa(params))
+#
+# opt = optax.adam(1e-2)
+# opt_state = opt.init(params)
+# p1 = []
+# for _ in tqdm(range(200)):
+#     g = gqaoa(params)
+#     updates, opt_state = opt.update(g, opt_state, params)
+#     params = optax.apply_updates(params, updates)
+#     p1.append(jqaoa(params))
 
-import timeit
-num=1
-r = timeit.timeit(lambda: jqaoa(params).block_until_ready(), number=num)
-print(r / num)
+print(jqaoa(params))
 
-gqaoa = jit(grad(qaoa))
-print("grad")
-gqaoa(params)
-print("compiled")
-num=1
-r = timeit.timeit(lambda: gqaoa(params).block_until_ready(), number=num)
-print(r / num)
+# plt.plot(p1)
+# plt.show()
+
+plt.plot(fval)
+plt.plot(-mask, color="tab:green")
+
+res, b = jit(qaoa)(params)
+ax = plt.twinx()
+ax.plot(jnp.abs(res) ** 2, color="tab:orange")
+plt.show()
+
+print(jnp.prod(1-b))
+

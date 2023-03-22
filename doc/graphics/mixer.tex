@@ -1,0 +1,43 @@
+\documentclass[tikz, class=beamer]{standalone}
+\usetheme{metropolis}
+
+\definecolor{fullcolor}{RGB}{71, 115, 255}
+\definecolor{feascolor}{RGB}{121, 174, 144}
+
+\begin{document}
+
+\def\dist{8cm}
+\def\size{1}
+
+\def\ca{-1.2cm}
+\def\cb{-1cm}
+\def\cc{1cm}
+\def\cd{1.6cm}
+\def\ce{0.4cm}
+\def\cf{-0.66cm}
+\def\ba{-0.2cm}
+\def\bb{0.1cm}
+\def\bc{0.3cm}
+
+\begin{tikzpicture}[
+        full/.style={thick,fill=fullcolor!30,draw=black!80},
+        feas/.style={thick,fill=feascolor,draw=black!80},
+        arrow/.style={very thick,fill=green,draw=black!70}
+    ]
+    \pgfmathsetseed{2143}
+    \draw[full] plot[smooth cycle,variable=\t,samples at={20,65,...,335}](\t:\size+\size*rnd);
+    \draw[feas] plot[smooth cycle,variable=\t,samples at={0,45,...,315}](\t:0.2+0.8*rnd);
+    \pgfmathsetseed{2143}
+    \draw[full,xshift=\dist] plot[smooth cycle,variable=\t,samples at={20,65,...,335}](\t:1+1*rnd);
+    \draw[feas,xshift=\dist] plot[smooth cycle,variable=\t,samples at={0,45,...,315}](\t:0.2+0.8*rnd);
+    %
+
+    % \draw[very thick, ->] (\cc, \cf) to [bend left] (\dist+\cd, 0);
+    \draw[very thick, ->, red] (0, -\bc) to [bend left] (\dist+\ca, 0);
+    \draw[very thick, ->] (\ba, \bc) to [bend left] (\dist+\bc, \bb);
+    % \draw[very thick, ->] (\cb, \ba) to [bend left] (\dist-\bb, -\bc);
+
+    \node at (0.5*\dist, -0.1) {$U_M(\beta)$};
+\end{tikzpicture}
+
+\end{document}
