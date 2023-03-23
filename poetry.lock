@@ -252,14 +252,14 @@ tests = ["asttokens", "littleutils", "pytest", "rich"]
 
 [[package]]
 name = "fonttools"
-version = "4.39.0"
+version = "4.39.2"
 description = "Tools to manipulate font files"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "fonttools-4.39.0-py3-none-any.whl", hash = "sha256:f5e764e1fd6ad54dfc201ff32af0ba111bcfbe0d05b24540af74c63db4ed6390"},
-    {file = "fonttools-4.39.0.zip", hash = "sha256:909c104558835eac27faeb56be5a4c32694192dca123d073bf746ce9254054af"},
+    {file = "fonttools-4.39.2-py3-none-any.whl", hash = "sha256:85245aa2fd4cf502a643c9a9a2b5a393703e150a6eaacc3e0e84bb448053f061"},
+    {file = "fonttools-4.39.2.zip", hash = "sha256:e2d9f10337c9e3b17f9bce17a60a16a885a7d23b59b7f45ce07ea643e5580439"},
 ]
 
 [package.extras]
@@ -275,24 +275,6 @@ type1 = ["xattr"]
 ufo = ["fs (>=2.2.0,<3)"]
 unicode = ["unicodedata2 (>=15.0.0)"]
 woff = ["brotli (>=1.0.1)", "brotlicffi (>=0.8.0)", "zopfli (>=0.1.4)"]
-
-[[package]]
-name = "hadamard-transform"
-version = "0.1.3"
-description = "Fast Walsh–Hadamard Transform (FWHT) in PyTorch"
-category = "main"
-optional = false
-python-versions = ">=3.9"
-files = [
-    {file = "hadamard-transform-0.1.3.tar.gz", hash = "sha256:fd2d926f665e0c09ef2aabd739b92738fecb29b977ec2e7c980db567b67db86c"},
-    {file = "hadamard_transform-0.1.3-py3-none-any.whl", hash = "sha256:36be3723f0f59abd4e2943d68c8d812d2069d18882c0d40180bf5d0dda65d628"},
-]
-
-[package.dependencies]
-torch = ">=1.10"
-
-[package.extras]
-test = ["pytest"]
 
 [[package]]
 name = "importlib-resources"
@@ -354,17 +336,17 @@ test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.21)", "pa
 
 [[package]]
 name = "jax"
-version = "0.4.5"
+version = "0.4.6"
 description = "Differentiate, compile, and transform Numpy code."
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "jax-0.4.5.tar.gz", hash = "sha256:1633e56d34b18ddfa7d2a216ce214fa6fa712d36552532aaa71da416aede7268"},
+    {file = "jax-0.4.6.tar.gz", hash = "sha256:d06ea8fba4ed315ec55110396058cb48c8edb2ab0b412f28c8a123beee9e58ab"},
 ]
 
 [package.dependencies]
-jaxlib = {version = "0.4.4", optional = true, markers = "extra == \"cpu\""}
+jaxlib = {version = "0.4.6", optional = true, markers = "extra == \"cpu\""}
 numpy = ">=1.20"
 opt_einsum = "*"
 scipy = ">=1.5"
@@ -372,33 +354,33 @@ scipy = ">=1.5"
 [package.extras]
 australis = ["protobuf (>=3.13,<4)"]
 ci = ["jaxlib (==0.4.4)"]
-cpu = ["jaxlib (==0.4.4)"]
-cuda = ["jaxlib (==0.4.4+cuda11.cudnn86)"]
-cuda11-cudnn82 = ["jaxlib (==0.4.4+cuda11.cudnn82)"]
-cuda11-cudnn86 = ["jaxlib (==0.4.4+cuda11.cudnn86)"]
+cpu = ["jaxlib (==0.4.6)"]
+cuda = ["jaxlib (==0.4.6+cuda11.cudnn86)"]
+cuda11-cudnn82 = ["jaxlib (==0.4.6+cuda11.cudnn82)"]
+cuda11-cudnn86 = ["jaxlib (==0.4.6+cuda11.cudnn86)"]
 minimum-jaxlib = ["jaxlib (==0.4.4)"]
-tpu = ["jaxlib (==0.4.4)", "libtpu-nightly (==0.1.dev20230216)", "requests"]
+tpu = ["jaxlib (==0.4.6)", "libtpu-nightly (==0.1.dev20230309)", "requests"]
 
 [[package]]
 name = "jaxlib"
-version = "0.4.4"
+version = "0.4.6"
 description = "XLA library for JAX"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "jaxlib-0.4.4-cp310-cp310-macosx_10_14_x86_64.whl", hash = "sha256:6ab7e24f0f3269f2708d1c0984a6f2d8eef2dfee24b21dcf8da296f49809d689"},
-    {file = "jaxlib-0.4.4-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:c2e3a6a0279395db2549ad0ca269907937be4582a150c6a6d595eb812a2ffbc5"},
-    {file = "jaxlib-0.4.4-cp310-cp310-manylinux2014_x86_64.whl", hash = "sha256:e154fdd3d001fad8b91f342fb1a656358e8c4bf188b65544147f6a7999d4b8a4"},
-    {file = "jaxlib-0.4.4-cp311-cp311-macosx_10_14_x86_64.whl", hash = "sha256:43f7c2193c2572c33106f41e4c206c70e4b30e97139699134d29a3e4ba367afb"},
-    {file = "jaxlib-0.4.4-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:6e8794ec07504a2e68f49f7751130ff4bc1754eb554560e70a9e2004b6f728bf"},
-    {file = "jaxlib-0.4.4-cp311-cp311-manylinux2014_x86_64.whl", hash = "sha256:49acc44c2fe8fc7e3e66a0056b6ea55fc6bd4685686070d57d05d7bbd7872cdf"},
-    {file = "jaxlib-0.4.4-cp38-cp38-macosx_10_14_x86_64.whl", hash = "sha256:32141275ca791277ae6cb26f3e0c51be3c3eff96d2a886a32b34090ce66eacf6"},
-    {file = "jaxlib-0.4.4-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:f3f065cb4596d360a259ea9dd6ff86b937d9a0536ade73c4391e24e1660a2555"},
-    {file = "jaxlib-0.4.4-cp38-cp38-manylinux2014_x86_64.whl", hash = "sha256:754bbe7a78cdf04b6cd6227089e4d6e4940b9ce304cc92bd606f16d36770c6a9"},
-    {file = "jaxlib-0.4.4-cp39-cp39-macosx_10_14_x86_64.whl", hash = "sha256:d2e56b310d6294ad233b1b770e474f37398bc12aae0cd3718ec36e982af4483b"},
-    {file = "jaxlib-0.4.4-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:6c41bb297ed270a7de6e65445f87b72e8a0fa6b57e584192bb55f0646159c9e4"},
-    {file = "jaxlib-0.4.4-cp39-cp39-manylinux2014_x86_64.whl", hash = "sha256:a54176971e8897c1e7e75f2a207fbd2b1e46158c246915d294e8cc0d4897863b"},
+    {file = "jaxlib-0.4.6-cp310-cp310-macosx_10_14_x86_64.whl", hash = "sha256:c42ea44671f1e560d63f742c787a65744f1efd0a20bbfe177e9d3e8bd7cece92"},
+    {file = "jaxlib-0.4.6-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:1393968b0f808c1769195990f1ea138903bc4012bdffb850eecd10e113b8fca8"},
+    {file = "jaxlib-0.4.6-cp310-cp310-manylinux2014_x86_64.whl", hash = "sha256:e18e3d5fd5d1aee94bd97791c7157ea7fd682f5eb8a04a8b1a3b0ed011175892"},
+    {file = "jaxlib-0.4.6-cp311-cp311-macosx_10_14_x86_64.whl", hash = "sha256:f7233463e1f79b330d3a1e12629e1bbc334acf6f5be22a0af244a2ed544afdfe"},
+    {file = "jaxlib-0.4.6-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:ed2f504f0d48a1e727322aa5baae0ec0405fc5fcb5e4135bb15740978535b5e0"},
+    {file = "jaxlib-0.4.6-cp311-cp311-manylinux2014_x86_64.whl", hash = "sha256:34b0b4e41e185fba36b81cf68d4979503afba4640bf29b7f6709b17b3c3c55bc"},
+    {file = "jaxlib-0.4.6-cp38-cp38-macosx_10_14_x86_64.whl", hash = "sha256:2949b6b6b77f296982b42ad2c6350526baf47b0f105118a65a9e9b2093de6572"},
+    {file = "jaxlib-0.4.6-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:3be2b70104f9547a3281e5c06dfafe1be27c4927d6b62b69a55d26977cd03e15"},
+    {file = "jaxlib-0.4.6-cp38-cp38-manylinux2014_x86_64.whl", hash = "sha256:554fc7300c61d76b5996145bd33a8dd19d60c49e57ad38686057d719b1d69d38"},
+    {file = "jaxlib-0.4.6-cp39-cp39-macosx_10_14_x86_64.whl", hash = "sha256:cdfbff50bae46065d2fac6250260077e2c554df52252c45cb5ca949bed378b6f"},
+    {file = "jaxlib-0.4.6-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:399d83e16a35d66693b27951b87be566d91e47c7f4ac1fc5a362536a7b9c29cc"},
+    {file = "jaxlib-0.4.6-cp39-cp39-manylinux2014_x86_64.whl", hash = "sha256:4079c42247db33c69f10710b6a5a570ed89d773e0e549612fadba3d06fe4773c"},
 ]
 
 [package.dependencies]
@@ -618,71 +600,6 @@ files = [
     {file = "numpy-1.24.2-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:150947adbdfeceec4e5926d956a06865c1c690f2fd902efede4ca6fe2e657c3f"},
     {file = "numpy-1.24.2.tar.gz", hash = "sha256:003a9f530e880cb2cd177cba1af7220b9aa42def9c4afc2a2fc3ee6be7eb2b22"},
 ]
-
-[[package]]
-name = "nvidia-cublas-cu11"
-version = "11.10.3.66"
-description = "CUBLAS native runtime libraries"
-category = "main"
-optional = false
-python-versions = ">=3"
-files = [
-    {file = "nvidia_cublas_cu11-11.10.3.66-py3-none-manylinux1_x86_64.whl", hash = "sha256:d32e4d75f94ddfb93ea0a5dda08389bcc65d8916a25cb9f37ac89edaeed3bded"},
-    {file = "nvidia_cublas_cu11-11.10.3.66-py3-none-win_amd64.whl", hash = "sha256:8ac17ba6ade3ed56ab898a036f9ae0756f1e81052a317bf98f8c6d18dc3ae49e"},
-]
-
-[package.dependencies]
-setuptools = "*"
-wheel = "*"
-
-[[package]]
-name = "nvidia-cuda-nvrtc-cu11"
-version = "11.7.99"
-description = "NVRTC native runtime libraries"
-category = "main"
-optional = false
-python-versions = ">=3"
-files = [
-    {file = "nvidia_cuda_nvrtc_cu11-11.7.99-2-py3-none-manylinux1_x86_64.whl", hash = "sha256:9f1562822ea264b7e34ed5930567e89242d266448e936b85bc97a3370feabb03"},
-    {file = "nvidia_cuda_nvrtc_cu11-11.7.99-py3-none-manylinux1_x86_64.whl", hash = "sha256:f7d9610d9b7c331fa0da2d1b2858a4a8315e6d49765091d28711c8946e7425e7"},
-    {file = "nvidia_cuda_nvrtc_cu11-11.7.99-py3-none-win_amd64.whl", hash = "sha256:f2effeb1309bdd1b3854fc9b17eaf997808f8b25968ce0c7070945c4265d64a3"},
-]
-
-[package.dependencies]
-setuptools = "*"
-wheel = "*"
-
-[[package]]
-name = "nvidia-cuda-runtime-cu11"
-version = "11.7.99"
-description = "CUDA Runtime native Libraries"
-category = "main"
-optional = false
-python-versions = ">=3"
-files = [
-    {file = "nvidia_cuda_runtime_cu11-11.7.99-py3-none-manylinux1_x86_64.whl", hash = "sha256:cc768314ae58d2641f07eac350f40f99dcb35719c4faff4bc458a7cd2b119e31"},
-    {file = "nvidia_cuda_runtime_cu11-11.7.99-py3-none-win_amd64.whl", hash = "sha256:bc77fa59a7679310df9d5c70ab13c4e34c64ae2124dd1efd7e5474b71be125c7"},
-]
-
-[package.dependencies]
-setuptools = "*"
-wheel = "*"
-
-[[package]]
-name = "nvidia-cudnn-cu11"
-version = "8.5.0.96"
-description = "cuDNN runtime libraries"
-category = "main"
-optional = false
-python-versions = ">=3"
-files = [
-    {file = "nvidia_cudnn_cu11-8.5.0.96-2-py3-none-manylinux1_x86_64.whl", hash = "sha256:402f40adfc6f418f9dae9ab402e773cfed9beae52333f6d86ae3107a1b9527e7"},
-    {file = "nvidia_cudnn_cu11-8.5.0.96-py3-none-manylinux1_x86_64.whl", hash = "sha256:71f8111eb830879ff2836db3cccf03bbd735df9b0d17cd93761732ac50a8a108"},
-]
-
-[package.dependencies]
-setuptools = "*"
-wheel = "*"
 
 [[package]]
 name = "opt-einsum"
@@ -996,23 +913,6 @@ doc = ["matplotlib (>2)", "numpydoc", "pydata-sphinx-theme (==0.9.0)", "sphinx (
 test = ["asv", "gmpy2", "mpmath", "pooch", "pytest", "pytest-cov", "pytest-timeout", "pytest-xdist", "scikit-umfpack", "threadpoolctl"]
 
 [[package]]
-name = "setuptools"
-version = "67.5.1"
-description = "Easily download, build, install, upgrade, and uninstall Python packages"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "setuptools-67.5.1-py3-none-any.whl", hash = "sha256:1c39d42bda4cb89f7fdcad52b6762e3c309ec8f8715b27c684176b7d71283242"},
-    {file = "setuptools-67.5.1.tar.gz", hash = "sha256:15136a251127da2d2e77ac7a1bc231eb504654f7e3346d93613a13f2e2787535"},
-]
-
-[package.extras]
-docs = ["furo", "jaraco.packaging (>=9)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-hoverxref (<2)", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (==0.8.3)", "sphinx-reredirects", "sphinxcontrib-towncrier"]
-testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8 (<5)", "flake8-2020", "ini2toml[lite] (>=0.9)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pip (>=19.1)", "pip-run (>=8.8)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-flake8", "pytest-mypy (>=0.9.1)", "pytest-perf", "pytest-timeout", "pytest-xdist", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel"]
-testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
-
-[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -1055,47 +955,6 @@ files = [
     {file = "toolz-0.12.0-py3-none-any.whl", hash = "sha256:2059bd4148deb1884bb0eb770a3cde70e7f954cfbbdc2285f1f2de01fd21eb6f"},
     {file = "toolz-0.12.0.tar.gz", hash = "sha256:88c570861c440ee3f2f6037c4654613228ff40c93a6c25e0eba70d17282c6194"},
 ]
-
-[[package]]
-name = "torch"
-version = "1.13.1"
-description = "Tensors and Dynamic neural networks in Python with strong GPU acceleration"
-category = "main"
-optional = false
-python-versions = ">=3.7.0"
-files = [
-    {file = "torch-1.13.1-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:fd12043868a34a8da7d490bf6db66991108b00ffbeecb034228bfcbbd4197143"},
-    {file = "torch-1.13.1-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:d9fe785d375f2e26a5d5eba5de91f89e6a3be5d11efb497e76705fdf93fa3c2e"},
-    {file = "torch-1.13.1-cp310-cp310-win_amd64.whl", hash = "sha256:98124598cdff4c287dbf50f53fb455f0c1e3a88022b39648102957f3445e9b76"},
-    {file = "torch-1.13.1-cp310-none-macosx_10_9_x86_64.whl", hash = "sha256:393a6273c832e047581063fb74335ff50b4c566217019cc6ace318cd79eb0566"},
-    {file = "torch-1.13.1-cp310-none-macosx_11_0_arm64.whl", hash = "sha256:0122806b111b949d21fa1a5f9764d1fd2fcc4a47cb7f8ff914204fd4fc752ed5"},
-    {file = "torch-1.13.1-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:22128502fd8f5b25ac1cd849ecb64a418382ae81dd4ce2b5cebaa09ab15b0d9b"},
-    {file = "torch-1.13.1-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:76024be052b659ac1304ab8475ab03ea0a12124c3e7626282c9c86798ac7bc11"},
-    {file = "torch-1.13.1-cp37-cp37m-manylinux2014_aarch64.whl", hash = "sha256:ea8dda84d796094eb8709df0fcd6b56dc20b58fdd6bc4e8d7109930dafc8e419"},
-    {file = "torch-1.13.1-cp37-cp37m-win_amd64.whl", hash = "sha256:2ee7b81e9c457252bddd7d3da66fb1f619a5d12c24d7074de91c4ddafb832c93"},
-    {file = "torch-1.13.1-cp37-none-macosx_10_9_x86_64.whl", hash = "sha256:0d9b8061048cfb78e675b9d2ea8503bfe30db43d583599ae8626b1263a0c1380"},
-    {file = "torch-1.13.1-cp37-none-macosx_11_0_arm64.whl", hash = "sha256:f402ca80b66e9fbd661ed4287d7553f7f3899d9ab54bf5c67faada1555abde28"},
-    {file = "torch-1.13.1-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:727dbf00e2cf858052364c0e2a496684b9cb5aa01dc8a8bc8bbb7c54502bdcdd"},
-    {file = "torch-1.13.1-cp38-cp38-manylinux2014_aarch64.whl", hash = "sha256:df8434b0695e9ceb8cc70650afc1310d8ba949e6db2a0525ddd9c3b2b181e5fe"},
-    {file = "torch-1.13.1-cp38-cp38-win_amd64.whl", hash = "sha256:5e1e722a41f52a3f26f0c4fcec227e02c6c42f7c094f32e49d4beef7d1e213ea"},
-    {file = "torch-1.13.1-cp38-none-macosx_10_9_x86_64.whl", hash = "sha256:33e67eea526e0bbb9151263e65417a9ef2d8fa53cbe628e87310060c9dcfa312"},
-    {file = "torch-1.13.1-cp38-none-macosx_11_0_arm64.whl", hash = "sha256:eeeb204d30fd40af6a2d80879b46a7efbe3cf43cdbeb8838dd4f3d126cc90b2b"},
-    {file = "torch-1.13.1-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:50ff5e76d70074f6653d191fe4f6a42fdbe0cf942fbe2a3af0b75eaa414ac038"},
-    {file = "torch-1.13.1-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:2c3581a3fd81eb1f0f22997cddffea569fea53bafa372b2c0471db373b26aafc"},
-    {file = "torch-1.13.1-cp39-cp39-win_amd64.whl", hash = "sha256:0aa46f0ac95050c604bcf9ef71da9f1172e5037fdf2ebe051962d47b123848e7"},
-    {file = "torch-1.13.1-cp39-none-macosx_10_9_x86_64.whl", hash = "sha256:6930791efa8757cb6974af73d4996b6b50c592882a324b8fb0589c6a9ba2ddaf"},
-    {file = "torch-1.13.1-cp39-none-macosx_11_0_arm64.whl", hash = "sha256:e0df902a7c7dd6c795698532ee5970ce898672625635d885eade9976e5a04949"},
-]
-
-[package.dependencies]
-nvidia-cublas-cu11 = {version = "11.10.3.66", markers = "platform_system == \"Linux\""}
-nvidia-cuda-nvrtc-cu11 = {version = "11.7.99", markers = "platform_system == \"Linux\""}
-nvidia-cuda-runtime-cu11 = {version = "11.7.99", markers = "platform_system == \"Linux\""}
-nvidia-cudnn-cu11 = {version = "8.5.0.96", markers = "platform_system == \"Linux\""}
-typing-extensions = "*"
-
-[package.extras]
-opt-einsum = ["opt-einsum (>=3.3)"]
 
 [[package]]
 name = "tqdm"
@@ -1159,21 +1018,6 @@ files = [
 ]
 
 [[package]]
-name = "wheel"
-version = "0.38.4"
-description = "A built-package format for Python"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "wheel-0.38.4-py3-none-any.whl", hash = "sha256:b60533f3f5d530e971d6737ca6d58681ee434818fab630c83a734bb10c083ce8"},
-    {file = "wheel-0.38.4.tar.gz", hash = "sha256:965f5259b566725405b05e7cf774052044b1ed30119b5d586b2703aafe8719ac"},
-]
-
-[package.extras]
-test = ["pytest (>=3.0.0)"]
-
-[[package]]
 name = "zipp"
 version = "3.15.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
@@ -1192,4 +1036,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.11"
-content-hash = "25bd7b9672a573f519166f1f342c6ecf50762e93650df9032fbe2d14fd354fa0"
+content-hash = "245e67202b07fded9150f374f92c7135112d70d85650cd17ffcd527cb3479ced"
