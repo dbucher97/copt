@@ -1,4 +1,0 @@
-\beamer@sectionintoc {1}{QAOA introduction}{2}{0}{1}
-\beamer@sectionintoc {2}{Inequality constraints before}{4}{0}{2}
-\beamer@sectionintoc {3}{Constrained Mixer for inequality constraints}{5}{0}{3}
-\beamer@sectionintoc {4}{Experiments}{6}{0}{4}
