@@ -8,11 +8,10 @@ import matplotlib.pyplot as plt
 
 import optax
 
-
 CDTYPE = jnp.complex64
 DTYPE = jnp.float32
 
-def fwht(x):
+--upgrade def fwht(x):
     d = x.shape[0]
 
     h = 2
