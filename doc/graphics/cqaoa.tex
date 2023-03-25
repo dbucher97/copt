@@ -1,0 +1,30 @@
+\documentclass[tikz,class=beamer]{standalone}
+\usetheme{metropolis}
+
+\usepackage{quantikz}
+\usepackage{fontspec}
+
+\definecolor{success}{RGB}{121, 174, 144}
+\definecolor{fire}{RGB}{216, 65, 65}
+\definecolor{aqua}{RGB}{16, 34, 64}
+\definecolor{sand}{RGB}{241, 237, 229}
+\colorlet{xsand}{sand!50}
+
+\setbeamercolor{normal text}{fg=aqua, bg=xsand}
+
+
+\begin{document}
+
+\tikzset{
+    operator/.append style={fill=xsand},
+    meter/.append style={fill=xsand},
+}
+
+\begin{quantikz}
+    \lstick[wires=2]{Ancilla}& \qw{} & \qw & \qw & \gate[wires=3]{QPE(g)} & \meter{abort if 1} &
+    \lstick{\ket{0}} & \gate[wires=3]{QPE^\dagger(g)}& \qw \\[-0.2cm]
+    & \qwbundle{} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \\[0.1cm]
+    \lstick{Compute}& \qwbundle{} & \gate{U_P(\gamma)} & \gate{U_M(\beta)} & \qw & \qw & \qw & \qw & \qw &
+\end{quantikz}
+
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[tikz,class=beamer]{standalone}
+\usetheme{metropolis}
+
+\usepackage{quantikz}
+\usepackage{fontspec}
+
+\definecolor{success}{RGB}{121, 174, 144}
+\definecolor{fire}{RGB}{216, 65, 65}
+\definecolor{aqua}{RGB}{16, 34, 64}
+\definecolor{sand}{RGB}{241, 237, 229}
+\colorlet{xsand}{sand!50}
+
+\setbeamercolor{normal text}{fg=aqua, bg=xsand}
+
+
+\begin{document}
+
+\tikzset{
+    operator/.append style={fill=xsand},
+    meter/.append style={fill=xsand},
+}
+
+\begin{quantikz}
+    & g(x) = 0.g_1g_2g_3g_4 &\\
+    \lstick{\ket{0}} & \gate[wires=5]{QPE(g(x))} & \qw \rstick{\ket{g_1}}\\[-0.33cm]
+    \lstick{\ket{0}} & & \qw\rstick{\ket{g_2}}\\
+    \lstick{\ket{0}} & & \qw\rstick{\ket{g_3}}\\
+    \lstick{\ket{0}} & & \qw\rstick{\ket{g_4}}\\
+    \lstick{\ket{x}} & \qwbundle{} & \qw
+\end{quantikz}
+
+\end{document}
