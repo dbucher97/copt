@@ -110,21 +110,21 @@
 \end{center}
 \end{frame}
 
-\begin{frame}{Optimization of Parameters}
-    \begin{itemize}
-        \item State after QAOA iterations $\ket{\beta, \gamma} = \prod_i U_M(\beta_i)
-            U_P(\gamma_i) \ket{+}$
-        \item Initialize parameters $\beta, \gamma$ with decreasing $\beta$s and
-            increasing $\gamma$s
-        \item Huge depth $\Rightarrow$ Like QA, $\ket{\beta, \gamma}$ encodes
-            good solution already, otherwise
-    \end{itemize}
-    \begin{block}{Classical training of parameters}
-        \[
-            \min_{\beta, \gamma} \bra{\beta, \gamma} H_P \ket{\beta, \gamma}
-        \]
-    \end{block}
-\end{frame}
+% \begin{frame}{Optimization of Parameters}
+%     \begin{itemize}
+%         \item State after QAOA iterations $\ket{\beta, \gamma} = \prod_i U_M(\beta_i)
+%             U_P(\gamma_i) \ket{+}$
+%         \item Initialize parameters $\beta, \gamma$ with decreasing $\beta$s and
+%             increasing $\gamma$s
+%         \item Huge depth $\Rightarrow$ Like QA, $\ket{\beta, \gamma}$ encodes
+%             good solution already, otherwise
+%     \end{itemize}
+%     \begin{block}{Classical training of parameters}
+%         \[
+%             \min_{\beta, \gamma} \bra{\beta, \gamma} H_P \ket{\beta, \gamma}
+%         \]
+%     \end{block}
+% \end{frame}
 
 \begin{frame}{The Quantum Alternating Operator Ansatz}
     \begin{itemize}
@@ -155,13 +155,13 @@
 \begin{frame}{The Action of the Mixer}
     \centering
     \includegraphics<1>[width=0.8\textwidth]{graphics/build/m_initial.pdf}
-    \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_init.pdf}
-    \includegraphics<3>[width=0.8\textwidth]{graphics/build/m_feas_no_out.pdf}
-    \includegraphics<4>[width=0.8\textwidth]{graphics/build/m_feas_no_out_marked.pdf}
-    \includegraphics<5>[width=0.8\textwidth]{graphics/build/m_feas_np.pdf}
-    \includegraphics<6>[width=0.8\textwidth]{graphics/build/mixer.pdf}
+    % \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_init.pdf}
+    \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_no_out.pdf}
+    % \includegraphics<4>[width=0.8\textwidth]{graphics/build/m_feas_no_out_marked.pdf}
+    % \includegraphics<5>[width=0.8\textwidth]{graphics/build/m_feas_np.pdf}
+    \includegraphics<3>[width=0.8\textwidth]{graphics/build/mixer.pdf}
 
-    \only<5>{Not possible. For unitary reverse way also possible}
+    % \only<5>{Not possible. For unitary reverse way also possible}
 \end{frame}
 
 
@@ -184,11 +184,11 @@
         \begin{block}{Issues}
             \vspace{10pt}
             \begin{itemize}
+                \item Potentially large penalty-factor diminishes the objective
+                \item Each constraint requires own slack variables
                 \item Objective function gets distorted\\for values of
                     $g(\mathbf{x})$ that do not fit the grid spanned by
                     $\mathbf{y}$
-                \item Potentially large penalty-factor diminishes the objective
-                \item Each constraint requires own slack variables
                 \item Infeasible states can still be found
             \end{itemize}
         \end{block}
@@ -251,7 +251,7 @@
         \draw<2->[thick, yshift=-3.75cm] (-72:1.2cm) -- (-72:1.8cm);
         \draw<2->[thick, yshift=-3.75cm] (219.6:1.2cm) -- (219.6:1.8cm);
 
-        \node<3>[align=center] at (-4cm, -3.75cm) {Determine the side\\of the phase};
+        \node<3>[align=center] at (-3.5cm, -3.75cm) {Determine\\the sign\\of the phase};
 
     \end{tikzpicture}
 \end{frame}
@@ -283,9 +283,10 @@
 
 \begin{frame}{The new QAOA Layer}
     \includegraphics[width=\textwidth]{graphics/build/cqaoa.pdf}
-    \[
-        \text{New Mixer operator (not unitary)}\quad \tilde{U}_M(\beta) = \hat P_{g\leq0} \exp \left(-i\beta \sum_i \sigma^x_i\right) 
-    \]
+    % \[
+    %     \text{New Mixer operator (not unitary)}\quad \tilde{U}_M(\beta) = \hat P_{g\leq0} \exp \left(-i\beta \sum_i \sigma^x_i\right) 
+    % \]
+    \vspace{6pt}
     \[
         \forall\mathbf{x} \in \mathcal{F}, \mathbf{y} \notin \mathcal{F}:\quad
         |\bra{\mathbf{y}}\hat P_{g \leq 0} U_M(\beta) \ket{\mathbf{x}}|^2 \leq
@@ -296,13 +297,14 @@
 
 \begin{frame}{A note on success probability}
     \begin{center}
-        \includegraphics[width=0.65\textwidth]{graphics/build/probability.pdf}
-    \end{center}
-    Each layer has the chance of succeeding $p_i \Rightarrow$ All layers together
+        \includegraphics[width=0.65\textwidth]{graphics/build/probability.pdf}\\[6pt]
+    Each layer has the chance of succeeding $p_i$\\$\Rightarrow$ All layers together
     $p_\text{success} = \prod_i p_i$.
-    \[
-        p_i = \sum_{\mathbf{x}} |\psi_\mathbf{x}|^2 P[g(\mathbf{x}) \leq 0]
-    \]
+    \end{center}
+
+    % \[
+    %     p_i = \sum_{\mathbf{x}} |\psi_\mathbf{x}|^2 P[g(\mathbf{x}) \leq 0]
+    % \]
 \end{frame}
 
 
