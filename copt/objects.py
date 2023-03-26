@@ -133,3 +133,9 @@ class Problem:
             c.lhs_values
         self.obj_values
 
+    def get_min(self):
+        m = jnp.argmin(jnp.where(self.feasible, self.obj_values, jnp.inf))
+        v = self.obj_values[m]
+        idx = jnp.unravel_index(m, self.domain.shape)
+        return v, idx
+

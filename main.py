@@ -2,9 +2,10 @@ import time
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+from matplotlib.patches import Rectangle
 
 from copt.objects import LinSpace, Constraint, Problem, Domain
-from copt.qaoa import to_penalty_qaoa
+from copt.qaoa import to_penalty_qaoa, to_masked_qaoa, train
 
 import numpy as np
 import jax.numpy as jnp
@@ -34,11 +35,17 @@ def plot_inequality():
 
 def plot_example1():
     a = LinSpace(space=(-1, 1), num_qubits=4)
+
     domain = Domain([a, a])
     sns.set(palette="deep", style="ticks", font_scale=1.5)
     fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
-    c = Constraint(domain, lhs=lambda x: x[0] + x[1], rhs=0, num_qubits=8)
+    c = Constraint(
+        domain,
+        lhs=lambda x: x[0] + x[1],
+        rhs=1,
+        num_qubits=8,
+    )
 
     def fun(i):
         x, y = i
@@ -52,13 +59,11 @@ def plot_example1():
         constraints=[c],
     )
 
-
     ax[0].matshow(p.obj_values.reshape(domain.shape), cmap="bwr")
     print(c.feasible)
     ax[1].matshow(jnp.where(c.feasible, p.obj_values, jnp.nan).reshape(domain.shape) , cmap="bwr")
 
     plt.savefig("plots/example1.pdf", bbox_inches="tight", transparent=True)
-
 
 
 if __name__ == "__main__":
@@ -78,3 +83,45 @@ if __name__ == "__main__":
     #
     # plt.matshow(x.reshape(domain.shape), norm="log")
     # plt.show()
+
+#     v, pos = p.get_min()
+#     print(pos)
+#
+#
+#     x = jnp.where(p.feasible, p.obj_values, jnp.nan)
+#
+#     plt.matshow(x.reshape(domain.shape), cmap="bwr")
+#     rect = Rectangle(
+#         jnp.array(pos)[::-1] - 0.51,
+#         1,
+#         1,
+#         linewidth=2,
+#         edgecolor="r",
+#         facecolor="none",
+#     )
+#     plt.gca().add_patch(rect)
+#     plt.show()
+#
+#     depth = 100
+#     # q, i, l = to_penalty_qaoa(p, depth=depth, T=1, extra_factor=10)
+#     q, i, l = to_masked_qaoa(p, depth=depth, exact=False, T=10)
+#
+#     i, t = train(l, i, steps=500)
+#
+#     plt.plot(t)
+#     plt.show()
+#
+#     x, p = q(i)
+#     x = jnp.abs(x) ** 2 * p
+#
+#     plt.matshow(x.reshape(domain.shape), cmap="Blues")
+#     rect = Rectangle(
+#         jnp.array(pos)[::-1] - 0.51,
+#         1,
+#         1,
+#         linewidth=2,
+#         edgecolor="r",
+#         facecolor="none",
+#     )
+#     plt.gca().add_patch(rect)
+#     plt.show()

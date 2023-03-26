@@ -5,16 +5,15 @@ import numpy as np
 def fwht(x):
     d = x.shape[0]
     h = 2
-    sq2 = np.sqrt(2)
     while h <= d:
         x = x.reshape((h, -1))
         a = x[::2]
         b = x[1::2]
-        x = x.at[::2].set((a + b) / sq2)
-        x = x.at[1::2].set((a - b) / sq2)
+        x = x.at[::2].set((a + b))
+        x = x.at[1::2].set((a - b))
         h *= 2
 
-    return x.flatten()
+    return x.flatten() / np.sqrt(d)
 
 if __name__ == "__main__":
     import jax.numpy as jnp
