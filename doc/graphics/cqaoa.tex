@@ -21,8 +21,9 @@
 }
 
 \begin{quantikz}
-    \lstick[wires=2]{Ancilla}& \qw{} & \qw & \qw & \gate[wires=3]{QPE(g)} & \meter{abort if 1} &
-    \lstick{\ket{0}} & \gate[wires=3]{QPE^\dagger(g)}& \qw \\[-0.2cm]
+    \lstick[wires=2]{Ancilla}& \qw{} & \qw & \qw & \gate[wires=3]{QPE(g)} &
+    \meter{abort if 0} &
+    \lstick{\ket{1}} & \gate[wires=3]{QPE^\dagger(g)}& \qw \\[-0.2cm]
     & \qwbundle{} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \\[0.1cm]
     \lstick{Compute}& \qwbundle{} & \gate{U_P(\gamma)} & \gate{U_M(\beta)} & \qw & \qw & \qw & \qw & \qw &
 \end{quantikz}

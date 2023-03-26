@@ -10,6 +10,7 @@ import jax
 class LinSpace:
     space: Tuple[float, float]
     num_qubits: int
+    endpoint: bool = True
 
     @property
     def shape(self):
@@ -17,7 +18,7 @@ class LinSpace:
 
     @cached_property
     def array(self):
-        return np.linspace(*self.space, self.shape)
+        return np.linspace(*self.space, self.shape, endpoint=self.endpoint)
 
 
 @dataclass
@@ -61,6 +62,7 @@ class Constraint:
     num_qubits: int
 
     underdrive: float = 0.9
+    pint: int = 3
 
     @cached_property
     def lhs_values(self):
@@ -84,7 +86,7 @@ class Constraint:
         )
         values = (self.lhs_values - self.rhs) * scale
 
-        inpx = jnp.linspace(-1, 1, 2 ** (n + 3), endpoint=False)
+        inpx = jnp.linspace(-1, 1, 2 ** (n + self.pint), endpoint=False)
 
 
         def fun(val):

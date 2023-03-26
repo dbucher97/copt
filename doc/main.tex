@@ -2,9 +2,19 @@
 \usetheme{metropolis}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{mathtools}
 \usepackage{braket}
 \usepackage[sorting=none, maxnames=1]{biblatex}
 \addbibresource{main.bib}
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map[overwrite]{
+      \step[fieldsource=doi, final]
+      \step[fieldset=url, null]
+      \step[fieldset=eprint, null]
+    }  
+  }
+}
 
 \usepackage{xpatch}
 
@@ -23,6 +33,8 @@
  {}
  {}
 
+
+
 \metroset{block=fill}
 
 \definecolor{success}{RGB}{121, 174, 144}
@@ -36,11 +48,49 @@
 \author{David Bucher}
 \title{Incorporating Inequality Constraints into QAOA}
 
+\DeclareMathOperator*{\argmin}{arg\,min}
+\definecolor{sand}{RGB}{241, 237, 229}
+
 \begin{document}
 
 \maketitle
 
+\begin{frame}{Constrained Optimization}
+    \begin{minipage}{0.5\textwidth}
+        \begin{itemize}
+            \item Objective function $f: \{0, 1\}^N \rightarrow
+                \mathbb{R}$\\e.g. QUBO, higher orders possible
+            \item Constraint function $g: \{0, 1\}^N \rightarrow
+                \mathbb{R}$
+            \item Multiple constraints possible, but we limit to one
+            \item Solution vector $\mathbf{x} \in \{0, 1\}^N$
+            \item \emph{Assumption}: $\exp(-i f(\mathbf{x}))$ and $\exp(-i
+                g(\mathbf{x}))$ computable on QC
+        \end{itemize}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \begin{block}{Optimize}
+            \centering
+            \vspace{-10pt}
+            \begin{gather*}
+                \mathbf{x}^* = \argmin_\mathbf{x \in \{0, 1\}^N} f(\mathbf{x})\\
+                \text{s.t.}\quad g(\mathbf{x}) \leq 0
+            \end{gather*}
+            \begin{tikzpicture}
+                \draw[very thick,->] (0, 0) -- (0, -1.7);
+                \node[align=center, fill=sand, fill opacity=0.9, rounded corners] at (0, -0.85) {\small Feasible
+                subspace\\\small $\mathcal{F} = \{\mathbf{x} \in \{0, 1\}^N
+                \,|\, g(\mathbf{x}) \leq 0\}$};
+            \end{tikzpicture}
+            \begin{gather*}
+                \mathbf{x}^* = \argmin_\mathbf{x \in \mathcal{F}} f(\mathbf{x})
+            \end{gather*}
+        \end{block}
+    \end{minipage}
+\end{frame}
+
 \section{QAOA Brief Introduction}
+
 
 
 \begin{frame}{The Quantum Approximate Optimization Ansatz}
@@ -48,15 +98,31 @@
     \begin{itemize}
         \item Variational circuit for combinatorial optimization, introduced
             by~\citeauthor{farhi2014}~\cite{farhi2014}
-        \item Trotterization of quantum annealing: $\hat H(t) = (1-t) \hat H_M +
-            t \hat H_P$
-        \item Problem Hamiltonian $\hat H_P = -\sum_{i,j} J_{ij} \hat \sigma^z_i
-            \hat \sigma_j^z - \sum_i h_i \hat \sigma_i^z$
-        \item Mixer $\hat H_M = -\sum_{i} \hat\sigma^x_i$, Initial state $\ket{+} = -\hat H_M \ket{+}$
+        \item Trotterization of quantum annealing $H(t) = (1-t) H_M +
+            t H_P$
+        \item Mixer $H_M = -\sum_{i} \sigma^x_i$, Initial state $\ket{+} = -H_M \ket{+}$
+        \item Problem Hamiltonian, e.g. Ising $H_P = -\sum_{i,j} J_{ij} \sigma^z_i
+            \sigma_j^z - \sum_i h_i \sigma_i^z$
     \end{itemize}
     \vspace{6pt}
     \includegraphics[height=3.0cm]{graphics/build/qaoa.pdf}
 \end{center}
+\end{frame}
+
+\begin{frame}{Optimization of Parameters}
+    \begin{itemize}
+        \item State after QAOA iterations $\ket{\beta, \gamma} = \prod_i U_M(\beta_i)
+            U_P(\gamma_i) \ket{+}$
+        \item Initialize parameters $\beta, \gamma$ with decreasing $\beta$s and
+            increasing $\gamma$s
+        \item Huge depth $\Rightarrow$ Like QA, $\ket{\beta, \gamma}$ encodes
+            good solution already, otherwise
+    \end{itemize}
+    \begin{block}{Classical training of parameters}
+        \[
+            \min_{\beta, \gamma} \bra{\beta, \gamma} H_P \ket{\beta, \gamma}
+        \]
+    \end{block}
 \end{frame}
 
 \begin{frame}{The Quantum Alternating Operator Ansatz}
@@ -72,20 +138,160 @@
         \begin{block}{Condition for Mixer}
             Map between all feasible states
         \[
-            \forall \mathbf{x}, \mathbf{y} \in F,  \exists \beta :
+            \forall \mathbf{x}, \mathbf{y} \in \mathcal{F},  \exists \beta :
             |\bra{\mathbf{x}}
-            U_M(\beta)  \ket{\mathbf{y}}| > 0
+            U_M(\beta)  \ket{\mathbf{y}}|^2 > 0
+        \]
+        Do not map between feasible to non-feasible state
+        \[
+            \forall \mathbf{x} \in \mathcal{F}, \mathbf{y} \notin \mathcal{F},  \forall \beta :
+            |\bra{\mathbf{x}}
+            U_M(\beta)  \ket{\mathbf{y}}|^2 = 0
         \]
         \end{block}
 \end{frame}
 
-\section{Inequality Constraints Before}
+\begin{frame}{The Action of the Mixer}
+    \includegraphics[width=\textwidth]{graphics/build/mixer.pdf}
+\end{frame}
+
+
+\section{Inequality Constraints so far}
+
+\begin{frame}{Inequality Constraints so far}
+    \begin{minipage}{0.5\textwidth}
+        To introduce inequality constraints to\\binary optimization
+        \begin{itemize}
+            \item Slack variables $\mathbf{y} \in \{0, 1\}^M$ that allow range through integer
+                encoding
+            \item $r_\mathbf{y} = \alpha \sum_m 2^m y_m$ with $\alpha = \min_{\mathbf{x} \in
+                \mathcal{F}} g(\mathbf{x})/(2^M - 1)$
+            \item $f(\mathbf{x}) \rightarrow f(\mathbf{x}) + \lambda
+                (g(\mathbf{x}) - r_\mathbf{y})^2$\\
+                assigns large penalties to infeasible states
+        \end{itemize}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \begin{block}{Issues}
+            \vspace{10pt}
+            \begin{itemize}
+                \item Objective function gets distorted\\for values of
+                    $g(\mathbf{x})$ that do not fit the grid spanned by
+                    $\mathbf{y}$
+                \item Potentially large penalty-factor diminishes the objective
+                \item Each constraint requires own slack variables
+                \item Infeasible states can still be found
+            \end{itemize}
+        \end{block}
+    \end{minipage}
+\end{frame}
+
+
+\begin{frame}{Inequality Constraints so far}
+    \centering
+    \begin{tikzpicture}
+        \draw[color=fire, line width=2mm] (0, 0) -- (5cm, 0);
+        \draw[color=success, line width=2mm] (0, 0) -- (-4cm, 0);
+
+        \draw[thick] (0, 0.3) -- (0, -0.3) node[below] {0};
+        \draw[thick] (-4cm, 0.3) -- node[left] {$g(\mathbf{x})$} (-4cm, -0.3) ;
+        \draw[thick] (5cm, 0.3) -- (5cm, -0.3);
+
+        \foreach \i in {0,...,7} {
+            \draw<2->[very thick] (-4cm * \i / 7, 0.2) -- ++(0, -0.4);
+        }
+        \foreach \i in {0,...,6} {
+            \draw<3>[domain=-0.5714/2:0.5714/2, smooth, variable=\x, thick,
+            yshift=0.6cm, xshift=-4cm * \i / 7] plot ({\x}, {2 * \x*\x});
+        }
+        \draw<3>[domain=0:0.5714/2, smooth, variable=\x, thick,
+            yshift=0.6cm, xshift=-4cm] plot ({\x}, {2 * \x*\x});
+        \draw<3>[domain=0.5714/2:1, smooth, variable=\x, thick,
+            yshift=0.6cm] plot ({\x}, {2 * \x*\x});
+        \draw<3>[domain=1:1.3, smooth, variable=\x, thick, dashed, ->,
+            yshift=0.6cm] plot ({\x}, {2 * \x*\x});
+
+        \node at (-2.2cm, -0.5) {$r_\mathbf{y}$};
+    \end{tikzpicture}
+\end{frame}
 
 
 \section{Constrained Mixer for Inequality Constraints}
 
+\begin{frame}{Phase Mapping}
+    \centering
+    \begin{tikzpicture}
+        \draw[color=fire, line width=2mm] (0, 0) -- (5cm, 0);
+        \draw[color=success, line width=2mm] (0, 0) -- (-4cm, 0);
+
+        \draw[thick] (0, 0.3) -- (0, -0.3) node[below] {0};
+        \draw[thick] (-4cm, 0.3) -- node[left] {$g(\mathbf{x})$} (-4cm, -0.3) ;
+        \draw[thick] (5cm, 0.3) -- (5cm, -0.3);
+
+        \draw<2->[->, very thick] (0, -1) -- node[right, align=center] {Map to the
+        phase\\$\ket{\mathbf{x}} \rightarrow e^{-i g(\mathbf{x})
+        }\ket{\mathbf{x}}$} ++(0, -0.75);
+
+        \fill<3>[color=aqua!20, line width=2mm, yshift=-2.25cm] (0, 0) arc (90:270:1.5cm);
+        \draw<2-> (0,-3.75cm) node{\huge $\varphi$} circle (1.5cm);
+        \draw<2->[color=fire, line width=2mm, yshift=-2.25cm] (0, 0) arc (90:-72:1.5cm);
+        \draw<2->[color=success, line width=2mm, yshift=-2.25cm] (0, 0) arc
+        (90:219.6:1.5cm);
+
+        \draw<2->[thick, yshift=-3.75cm] (90:1.2cm) -- (90:1.8cm);
+        \draw<2->[thick, yshift=-3.75cm] (-72:1.2cm) -- (-72:1.8cm);
+        \draw<2->[thick, yshift=-3.75cm] (219.6:1.2cm) -- (219.6:1.8cm);
+
+        \node<3>[align=center] at (-4cm, -3.75cm) {Determine the side\\of the phase};
+
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Quantum Phase Estimation}
+    \begin{minipage}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{graphics/build/qpe.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.65\textwidth}
+        \begin{itemize}
+            \item test
+        \end{itemize}
+        \begin{align*}
+            P(\varphi \leq 0) = \frac{1}{2^{2M}}\sum_{m = 0}^{2^{(M-1)} - 1}
+            \left|\frac{\sin(2\pi m + 2^M\varphi)}{\sin(2^{-M+1}\pi m +
+            \varphi)} \right|^2
+        \end{align*}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}{Quantum Phase Estimation}
+    \centering
+    \includegraphics[width=0.88\textwidth]{../plots/prob.pdf}
+\end{frame}
+
+\begin{frame}{The new QAOA Layer}
+    \includegraphics[width=\textwidth]{graphics/build/cqaoa.pdf}
+    \[
+        \tilde{U}_M(\beta) = \hat P_{g\leq0} \exp \left(-i\beta \sum \sigma_x\right) 
+    \]
+    \[
+        \forall\mathbf{x} \in \mathcal{F}, \mathbf{y} \notin \mathcal{F}:\quad
+        |\bra{\mathbf{y}}\hat P_{g \leq 0} U_M(\beta) \ket{\mathbf{x}}|^2 \leq
+        P(g(\mathbf{y}) \leq 0) \xrightarrow{M\rightarrow
+    \infty} 0
+    \]
+\end{frame}
+
 
 \section{Experiments}
+
+\begin{frame}{Simple Example}
+\end{frame}
+
+\section{Conclusion}
+
+    \begin{frame}{Conclusion}
+        
+    \end{frame}
 
 \begin{frame}[allowframebreaks]
     \frametitle{References}
