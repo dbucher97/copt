@@ -11,7 +11,7 @@ import optax
 CDTYPE = jnp.complex64
 DTYPE = jnp.float32
 
---upgrade def fwht(x):
+def fwht(x):
     d = x.shape[0]
 
     h = 2
