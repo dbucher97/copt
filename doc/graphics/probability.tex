@@ -2,10 +2,15 @@
 \usetheme{metropolis}
 \usepackage{braket}
 
-\definecolor{fullcolor}{RGB}{71, 115, 255}
+\definecolor{star}{RGB}{236, 195, 91}
+\definecolor{aqarius}{RGB}{71, 115, 255}
 \definecolor{feascolor}{RGB}{121, 174, 144}
 \definecolor{failcolor}{RGB}{216, 65, 65}
+\definecolor{aqua}{RGB}{16, 34, 64}
+\definecolor{sand}{RGB}{241, 237, 229}
+\colorlet{xsand}{sand!50}
 
+\setbeamercolor{normal text}{fg=aqua, bg=xsand}
 
 \newcommand{\splitarrow}[8]{
     \pgfmathsetmacro{\pos}{#1}
@@ -31,18 +36,18 @@
 \begin{document}
 
 \begin{tikzpicture}[
-        full/.style={thick,fill=fullcolor!30,draw=black!80},
+        full/.style={thick,fill=start!30,draw=black!80},
         feas/.style={thick,fill=feascolor,draw=black!80},
         arrow/.style={very thick,fill=green,draw=black!70}
     ]
-    \splitarrow{0cm}{1.5}{5}{0.8}{0.3}{0.3}{State initialization}{feascolor}
-    \splitarrow{1.6cm}{1.5}{0.8 * 5}{0.9}{0.3}{0.2}{Layer 1}{fullcolor}
-    \splitarrow{3.2cm}{1.5}{0.9 * 0.8 * 5}{0.9}{0.3}{0.2}{Layer 2}{fullcolor}
+    % \splitarrow{0cm}{1.5}{5}{0.8}{0.3}{0.3}{State initialization}{feascolor}
+    \splitarrow{1.6cm}{1.5}{0.8 * 5}{0.9}{0.3}{0.2}{Layer 1}{feascolor}
+    \splitarrow{3.2cm}{1.5}{0.9 * 0.8 * 5}{0.9}{0.3}{0.2}{Layer 2}{feascolor}
     \splitarrow{4.8cm}{1.5}{0.9 * 0.9 * 0.8 * 5}{0.9}{0.3}{0.2}{Layer
-    3}{fullcolor}
-    \splitarrow{6.4cm}{1.5}{0.9 * 3.24}{0.9}{0.3}{0.2}{Layer 4}{fullcolor}
+    3}{feascolor}
+    \splitarrow{6.4cm}{1.5}{0.9 * 3.24}{0.9}{0.3}{0.2}{Layer 4}{feascolor}
     \node at (8.9cm, -1.1cm) {$\cdots$};
-    \splitarrow{10cm}{1.5}{0.6 * 0.9 * 3.24}{0.9}{0.3}{0.2}{Layer $p$}{fullcolor}
+    \splitarrow{10cm}{1.5}{0.6 * 0.9 * 3.24}{0.9}{0.3}{0.2}{Layer $p$}{feascolor}
     % \splitarrow{1.02cm}{1}{2}{0.9}{0.2}{0.2}
     % \splitarrow{2.04cm}{1}{1.8}{0.9}{0.2}{0.2}
     % \splitarrow{2.04cm}{1}{1.8}{0.9}{0.2}{0.2}

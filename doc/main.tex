@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
+\usepackage{graphicx}
 \usepackage{braket}
 \usepackage[sorting=none, maxnames=1]{biblatex}
 \addbibresource{main.bib}
@@ -152,7 +153,15 @@
 \end{frame}
 
 \begin{frame}{The Action of the Mixer}
-    \includegraphics[width=\textwidth]{graphics/build/mixer.pdf}
+    \centering
+    \includegraphics<1>[width=0.8\textwidth]{graphics/build/m_initial.pdf}
+    \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_init.pdf}
+    \includegraphics<3>[width=0.8\textwidth]{graphics/build/m_feas_no_out.pdf}
+    \includegraphics<4>[width=0.8\textwidth]{graphics/build/m_feas_no_out_marked.pdf}
+    \includegraphics<5>[width=0.8\textwidth]{graphics/build/m_feas_np.pdf}
+    \includegraphics<6>[width=0.8\textwidth]{graphics/build/mixer.pdf}
+
+    \only<5>{Not possible. For unitary reverse way also possible}
 \end{frame}
 
 
@@ -198,20 +207,20 @@
         \draw[thick] (5cm, 0.3) -- (5cm, -0.3);
 
         \foreach \i in {0,...,7} {
-            \draw<2->[very thick] (-4cm * \i / 7, 0.2) -- ++(0, -0.4);
+            \draw<2->[very thick] (-4cm * \i / 7, 0.2) -- ++(0, -0.4);%
         }
         \foreach \i in {0,...,6} {
             \draw<3>[domain=-0.5714/2:0.5714/2, smooth, variable=\x, thick,
-            yshift=0.6cm, xshift=-4cm * \i / 7] plot ({\x}, {2 * \x*\x});
+            yshift=0.6cm, xshift=-4cm * \i / 7] plot ({\x}, {2 * \x*\x});%
         }
         \draw<3>[domain=0:0.5714/2, smooth, variable=\x, thick,
-            yshift=0.6cm, xshift=-4cm] plot ({\x}, {2 * \x*\x});
+            yshift=0.6cm, xshift=-4cm] plot ({\x}, {2 * \x*\x});%
         \draw<3>[domain=0.5714/2:1, smooth, variable=\x, thick,
-            yshift=0.6cm] plot ({\x}, {2 * \x*\x});
+            yshift=0.6cm] plot ({\x}, {2 * \x*\x});%
         \draw<3>[domain=1:1.3, smooth, variable=\x, thick, dashed, ->,
-            yshift=0.6cm] plot ({\x}, {2 * \x*\x});
+            yshift=0.6cm] plot ({\x}, {2 * \x*\x});%
 
-        \node at (-2.2cm, -0.5) {$r_\mathbf{y}$};
+        \node<2-> at (-2.2cm, -0.5) {$r_\mathbf{y}$};%
     \end{tikzpicture}
 \end{frame}
 
@@ -253,13 +262,17 @@
     \end{minipage}%
     \begin{minipage}{0.65\textwidth}
         \begin{itemize}
-            \item test
-        \end{itemize}
+            \item Rescale the constraint function, such that $-\pi \leq
+                g(\mathbf{x}) \leq \pi$
+            \item Measure $\varphi_1$ to determine whether $\varphi = g(\mathbf{x})$ positive or negative.
         \begin{align*}
             P(\varphi \leq 0) = \frac{1}{2^{2M}}\sum_{m = 0}^{2^{(M-1)} - 1}
             \left|\frac{\sin(2\pi m + 2^M\varphi)}{\sin(2^{-M+1}\pi m +
             \varphi)} \right|^2
         \end{align*}
+            \item The more ancilla qubits the more $P(\varphi \leq 0)$
+                resembles Heaviside theta $\theta(-\varphi)$
+        \end{itemize}
     \end{minipage}
 \end{frame}
 
@@ -271,13 +284,24 @@
 \begin{frame}{The new QAOA Layer}
     \includegraphics[width=\textwidth]{graphics/build/cqaoa.pdf}
     \[
-        \tilde{U}_M(\beta) = \hat P_{g\leq0} \exp \left(-i\beta \sum \sigma_x\right) 
+        \text{New Mixer operator (not unitary)}\quad \tilde{U}_M(\beta) = \hat P_{g\leq0} \exp \left(-i\beta \sum_i \sigma^x_i\right) 
     \]
     \[
         \forall\mathbf{x} \in \mathcal{F}, \mathbf{y} \notin \mathcal{F}:\quad
         |\bra{\mathbf{y}}\hat P_{g \leq 0} U_M(\beta) \ket{\mathbf{x}}|^2 \leq
-        P(g(\mathbf{y}) \leq 0) \xrightarrow{M\rightarrow
+        P[g(\mathbf{y}) \leq 0] \xrightarrow{M\rightarrow
     \infty} 0
+    \]
+\end{frame}
+
+\begin{frame}{A note on success probability}
+    \begin{center}
+        \includegraphics[width=0.65\textwidth]{graphics/build/probability.pdf}
+    \end{center}
+    Each layer has the chance of succeeding $p_i \Rightarrow$ All layers together
+    $p_\text{success} = \prod_i p_i$.
+    \[
+        p_i = \sum_{\mathbf{x}} |\psi_\mathbf{x}|^2 P[g(\mathbf{x}) \leq 0]
     \]
 \end{frame}
 
@@ -285,13 +309,56 @@
 \section{Experiments}
 
 \begin{frame}{Simple Example}
+    Function $f(x, y)$ of two 4-bit integers. Simple linear inequality
+    constraint.
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{../plots/example1.pdf}
+    \end{center}
 \end{frame}
 
-\section{Conclusion}
+\begin{frame}{Simple Example}
+    QPE Method. 500 iterations of Gradient Descent with ADAM.
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{../plots/opt_example1_masked.pdf}
+    \end{center}
+\end{frame}
 
-    \begin{frame}{Conclusion}
-        
-    \end{frame}
+\begin{frame}{Simple Example}
+    Penalty Method. 500 iterations of Gradient Descent with ADAM.
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{../plots/opt_example1_penalty.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}{What about the success probability?}
+    Quantum Annealing parametrization.
+    \begin{center}
+        \includegraphics[width=0.45\textwidth]{../plots/prob_num_qubits.pdf}
+        \includegraphics[width=0.45\textwidth]{../plots/prob_depth.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}{A little more complex example}
+    \begin{center}
+        \includegraphics<1>[width=0.9\textwidth]{../plots/example2.pdf}
+        \includegraphics<2>[width=0.9\textwidth]{../plots/opt_example2_masked_12.pdf}
+        \includegraphics<3>[width=0.9\textwidth]{../plots/opt_example2_penalty_12.pdf}
+    \end{center}
+\end{frame}
+
+\section{Conclusion and future directions}
+
+\begin{frame}{Conclusion and future directions}
+    \begin{itemize}
+        \item Promising first results, but more in depth research needs to be
+            conducted
+        \item Shrinking success probability is the main caveat
+        \item Deeper comparison between the penalty and the QPU based ansätze.
+            May have advantage for some kinds of constraints.
+        \item Similar ansatz based on Quantum Zeno Dynamics provided advantage
+            on real hardware tests~\cite{herman2023}.
+    \end{itemize}
+\end{frame}
 
 \begin{frame}[allowframebreaks]
     \frametitle{References}

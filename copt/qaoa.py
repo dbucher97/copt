@@ -118,10 +118,10 @@ def to_penalty_qaoa(
 ):
     objective = problem.obj_values
     for c in problem.constraints:
-        a = jnp.min(jnp.where(c.feasible, problem.obj_values, jnp.inf))
-        xi = (a - problem.obj_values) / c.penalty_tesselation
-        mv = jnp.max(jnp.where(c.feasible, -jnp.inf, xi))
-        objective = objective + mv * extra_factor * c.penalty_tesselation
+        # a = jnp.min(jnp.where(c.feasible, problem.obj_values, jnp.inf))
+        # xi = (a - problem.obj_values) / c.penalty_tesselation
+        # mv = jnp.max(jnp.where(c.feasible, -jnp.inf, xi))
+        objective = objective + extra_factor * c.penalty_tesselation
     objective = objective / jnp.max(objective)
 
     mixer = build_mixer(problem.domain.num_qubits)
