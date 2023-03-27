@@ -156,8 +156,8 @@
     \centering
     \includegraphics<1>[width=0.8\textwidth]{graphics/build/m_initial.pdf}
     % \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_init.pdf}
-    \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_no_out.pdf}
-    % \includegraphics<4>[width=0.8\textwidth]{graphics/build/m_feas_no_out_marked.pdf}
+    % \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_no_out.pdf}
+    \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_no_out_marked.pdf}
     % \includegraphics<5>[width=0.8\textwidth]{graphics/build/m_feas_np.pdf}
     \includegraphics<3>[width=0.8\textwidth]{graphics/build/mixer.pdf}
 
@@ -237,9 +237,10 @@
         \draw[thick] (-4cm, 0.3) -- node[left] {$g(\mathbf{x})$} (-4cm, -0.3) ;
         \draw[thick] (5cm, 0.3) -- (5cm, -0.3);
 
-        \draw<2->[->, very thick] (0, -1) -- node[right, align=center] {Map to the
-        phase\\$\ket{\mathbf{x}} \rightarrow e^{-i g(\mathbf{x})
-        }\ket{\mathbf{x}}$} ++(0, -0.75);
+        \draw<2->[->, very thick] (0, -1) -- 
+        node[right=0.25cm, align=center] {Map to the phase\\$\ket{\mathbf{x}} \rightarrow e^{i g(\mathbf{x}) }\ket{\mathbf{x}}$}
+        node[left=0.25cm, align=center] {Rescale constraint\\$-\pi
+        < g(\mathbf{x}) \leq \pi$} ++(0, -0.75);
 
         \fill<3>[color=aqua!20, line width=2mm, yshift=-2.25cm] (0, 0) arc (90:270:1.5cm);
         \draw<2-> (0,-3.75cm) node{\huge $\varphi$} circle (1.5cm);
@@ -262,9 +263,7 @@
     \end{minipage}%
     \begin{minipage}{0.65\textwidth}
         \begin{itemize}
-            \item Rescale the constraint function, such that $-\pi \leq
-                g(\mathbf{x}) \leq \pi$
-            \item Measure $\varphi_1$ to determine whether $\varphi = g(\mathbf{x})$ positive or negative.
+            \item Measure $\varphi_1$ to determine whether $\varphi = g(\mathbf{x})$ positive or negative
         \begin{align*}
             P(\varphi \leq 0) = \frac{1}{2^{2M}}\sum_{m = 0}^{2^{(M-1)} - 1}
             \left|\frac{\sin(2\pi m + 2^M\varphi)}{\sin(2^{-M+1}\pi m +
