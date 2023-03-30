@@ -110,21 +110,21 @@
 \end{center}
 \end{frame}
 
-\begin{frame}{Optimization of Parameters}
-    \begin{itemize}
-        \item State after QAOA iterations $\ket{\beta, \gamma} = \prod_i U_M(\beta_i)
-            U_P(\gamma_i) \ket{+}$
-        \item Initialize parameters $\beta, \gamma$ with decreasing $\beta$s and
-            increasing $\gamma$s
-        \item Huge depth $\Rightarrow$ Like QA, $\ket{\beta, \gamma}$ encodes
-            good solution already, otherwise
-    \end{itemize}
-    \begin{block}{Classical training of parameters}
-        \[
-            \min_{\beta, \gamma} \bra{\beta, \gamma} H_P \ket{\beta, \gamma}
-        \]
-    \end{block}
-\end{frame}
+% \begin{frame}{Optimization of Parameters}
+%     \begin{itemize}
+%         \item State after QAOA iterations $\ket{\beta, \gamma} = \prod_i U_M(\beta_i)
+%             U_P(\gamma_i) \ket{+}$
+%         \item Initialize parameters $\beta, \gamma$ with decreasing $\beta$s and
+%             increasing $\gamma$s
+%         \item Huge depth $\Rightarrow$ Like QA, $\ket{\beta, \gamma}$ encodes
+%             good solution already, otherwise
+%     \end{itemize}
+%     \begin{block}{Classical training of parameters}
+%         \[
+%             \min_{\beta, \gamma} \bra{\beta, \gamma} H_P \ket{\beta, \gamma}
+%         \]
+%     \end{block}
+% \end{frame}
 
 \begin{frame}{The Quantum Alternating Operator Ansatz}
     \begin{itemize}
@@ -155,13 +155,13 @@
 \begin{frame}{The Action of the Mixer}
     \centering
     \includegraphics<1>[width=0.8\textwidth]{graphics/build/m_initial.pdf}
-    \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_init.pdf}
-    \includegraphics<3>[width=0.8\textwidth]{graphics/build/m_feas_no_out.pdf}
-    \includegraphics<4>[width=0.8\textwidth]{graphics/build/m_feas_no_out_marked.pdf}
-    \includegraphics<5>[width=0.8\textwidth]{graphics/build/m_feas_np.pdf}
-    \includegraphics<6>[width=0.8\textwidth]{graphics/build/mixer.pdf}
+    % \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_init.pdf}
+    % \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_no_out.pdf}
+    \includegraphics<2>[width=0.8\textwidth]{graphics/build/m_feas_no_out_marked.pdf}
+    % \includegraphics<5>[width=0.8\textwidth]{graphics/build/m_feas_np.pdf}
+    \includegraphics<3>[width=0.8\textwidth]{graphics/build/mixer.pdf}
 
-    \only<5>{Not possible. For unitary reverse way also possible}
+    % \only<5>{Not possible. For unitary reverse way also possible}
 \end{frame}
 
 
@@ -184,11 +184,11 @@
         \begin{block}{Issues}
             \vspace{10pt}
             \begin{itemize}
+                \item Potentially large penalty-factor diminishes the objective
+                \item Each constraint requires own slack variables
                 \item Objective function gets distorted\\for values of
                     $g(\mathbf{x})$ that do not fit the grid spanned by
                     $\mathbf{y}$
-                \item Potentially large penalty-factor diminishes the objective
-                \item Each constraint requires own slack variables
                 \item Infeasible states can still be found
             \end{itemize}
         \end{block}
@@ -237,9 +237,10 @@
         \draw[thick] (-4cm, 0.3) -- node[left] {$g(\mathbf{x})$} (-4cm, -0.3) ;
         \draw[thick] (5cm, 0.3) -- (5cm, -0.3);
 
-        \draw<2->[->, very thick] (0, -1) -- node[right, align=center] {Map to the
-        phase\\$\ket{\mathbf{x}} \rightarrow e^{-i g(\mathbf{x})
-        }\ket{\mathbf{x}}$} ++(0, -0.75);
+        \draw<2->[->, very thick] (0, -1) -- 
+        node[right=0.25cm, align=center] {Map to the phase\\$\ket{\mathbf{x}} \rightarrow e^{i g(\mathbf{x}) }\ket{\mathbf{x}}$}
+        node[left=0.25cm, align=center] {Rescale constraint\\$-\pi
+        < g(\mathbf{x}) \leq \pi$} ++(0, -0.75);
 
         \fill<3>[color=aqua!20, line width=2mm, yshift=-2.25cm] (0, 0) arc (90:270:1.5cm);
         \draw<2-> (0,-3.75cm) node{\huge $\varphi$} circle (1.5cm);
@@ -251,7 +252,7 @@
         \draw<2->[thick, yshift=-3.75cm] (-72:1.2cm) -- (-72:1.8cm);
         \draw<2->[thick, yshift=-3.75cm] (219.6:1.2cm) -- (219.6:1.8cm);
 
-        \node<3>[align=center] at (-4cm, -3.75cm) {Determine the side\\of the phase};
+        \node<3>[align=center] at (-3.5cm, -3.75cm) {Determine\\the sign\\of the phase};
 
     \end{tikzpicture}
 \end{frame}
@@ -262,9 +263,7 @@
     \end{minipage}%
     \begin{minipage}{0.65\textwidth}
         \begin{itemize}
-            \item Rescale the constraint function, such that $-\pi \leq
-                g(\mathbf{x}) \leq \pi$
-            \item Measure $\varphi_1$ to determine whether $\varphi = g(\mathbf{x})$ positive or negative.
+            \item Measure $\varphi_1$ to determine whether $\varphi = g(\mathbf{x})$ positive or negative
         \begin{align*}
             P(\varphi \leq 0) = \frac{1}{2^{2M}}\sum_{m = 0}^{2^{(M-1)} - 1}
             \left|\frac{\sin(2\pi m + 2^M\varphi)}{\sin(2^{-M+1}\pi m +
@@ -283,9 +282,10 @@
 
 \begin{frame}{The new QAOA Layer}
     \includegraphics[width=\textwidth]{graphics/build/cqaoa.pdf}
-    \[
-        \text{New Mixer operator (not unitary)}\quad \tilde{U}_M(\beta) = \hat P_{g\leq0} \exp \left(-i\beta \sum_i \sigma^x_i\right) 
-    \]
+    % \[
+    %     \text{New Mixer operator (not unitary)}\quad \tilde{U}_M(\beta) = \hat P_{g\leq0} \exp \left(-i\beta \sum_i \sigma^x_i\right) 
+    % \]
+    \vspace{6pt}
     \[
         \forall\mathbf{x} \in \mathcal{F}, \mathbf{y} \notin \mathcal{F}:\quad
         |\bra{\mathbf{y}}\hat P_{g \leq 0} U_M(\beta) \ket{\mathbf{x}}|^2 \leq
@@ -296,13 +296,14 @@
 
 \begin{frame}{A note on success probability}
     \begin{center}
-        \includegraphics[width=0.65\textwidth]{graphics/build/probability.pdf}
-    \end{center}
-    Each layer has the chance of succeeding $p_i \Rightarrow$ All layers together
+        \includegraphics[width=0.65\textwidth]{graphics/build/probability.pdf}\\[6pt]
+    Each layer has the chance of succeeding $p_i$\\$\Rightarrow$ All layers together
     $p_\text{success} = \prod_i p_i$.
-    \[
-        p_i = \sum_{\mathbf{x}} |\psi_\mathbf{x}|^2 P[g(\mathbf{x}) \leq 0]
-    \]
+    \end{center}
+
+    % \[
+    %     p_i = \sum_{\mathbf{x}} |\psi_\mathbf{x}|^2 P[g(\mathbf{x}) \leq 0]
+    % \]
 \end{frame}
 
 
